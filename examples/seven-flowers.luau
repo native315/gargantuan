@@ -1,3 +1,4 @@
+local Lighting = game:GetService("Lighting")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 
@@ -21,7 +22,7 @@ baseplate.Name = "Baseplate"
 baseplate.Anchored = true
 baseplate.Color = Color3.fromHSV(0, 0, 0.5)
 baseplate.Position = Vector3.new(0, -20, 0)
-baseplate.Size = Vector3.new(2000, 20, 2000)
+baseplate.Size = Vector3.new(50, 20, 50)
 baseplate.Transparency = 0
 baseplate.Parent = Workspace
 
@@ -45,3 +46,9 @@ RunService.PreRender:Connect(function()
 		flowerSoul.Position = Vector3.new(x, y, z)
 	end
 end)
+
+local sky = Instance.new("Sky")
+sky.Parent = Lighting
+
+Lighting.ClockTime = 14
+Lighting.Ambient = Color3.new(0, 0, 0)

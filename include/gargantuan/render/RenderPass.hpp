@@ -2,8 +2,10 @@
 
 #include "gargantuan/classes/Camera.hpp"
 #include "gargantuan/classes/LayerCollector.hpp"
+#include "gargantuan/classes/Sky.hpp"
 #include "gargantuan/classes/WorldRoot.hpp"
 #include "gargantuan/render/Shader.hpp"
+#include "gargantuan/services/Lighting.hpp"
 
 #include <SDL3/SDL.h>
 #include <memory>
@@ -13,6 +15,7 @@ namespace gargantuan {
 	struct DrawContext {
 		std::shared_ptr<WorldRoot> WorldRoot;
 		std::shared_ptr<Camera> Camera;
+		std::shared_ptr<Lighting> Lighting;
 
 		std::unordered_set<std::shared_ptr<LayerCollector>> Layers;
 
@@ -36,8 +39,6 @@ namespace gargantuan {
 
 	class RenderPass {
 	  public:
-		static constexpr std::string LABEL;
-
 		Shader Shader;
 		SDL_GPUGraphicsPipeline *Pipeline = nullptr;
 

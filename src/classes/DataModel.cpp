@@ -1,7 +1,9 @@
 #include "gargantuan/classes/DataModel.hpp"
 
 #include "gargantuan/services/CoreGui.hpp"
+#include "gargantuan/services/Lighting.hpp"
 #include "gargantuan/services/ProcessService.hpp"
+#include "gargantuan/services/ReplicatedStorage.hpp"
 #include "gargantuan/services/RunService.hpp"
 #include "gargantuan/services/UserInputService.hpp"
 #include "gargantuan/services/Workspace.hpp"
@@ -14,6 +16,9 @@ namespace gargantuan {
 			{"RunService", RunService::CLASS_DEFINITION},
 			{"UserInputService", UserInputService::CLASS_DEFINITION},
 			{"Workspace", Workspace::CLASS_DEFINITION},
+			{"Lighting", Lighting::CLASS_DEFINITION},
+			{"ReplicatedStorage", ReplicatedStorage::CLASS_DEFINITION},
+			{"TweenService", ReplicatedStorage::CLASS_DEFINITION},
 		};
 		return CONSTRUCTORS;
 	};

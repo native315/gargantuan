@@ -18,6 +18,8 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <gtc/constants.hpp>
+#include <trigonometric.hpp>
 #include <vector>
 
 namespace gargantuan {
@@ -28,6 +30,7 @@ namespace gargantuan {
 	const std::vector<RenderPassConstructor> RENDER_PASS_CONSTRUCTORS{
 		CreateShadowPass,
 		CreateOpaquePass,
+		CreateSkyboxPass,
 		CreateGuiPass,
 	};
 
@@ -121,12 +124,13 @@ namespace gargantuan {
 		frameContext.Commands = commands;
 		frameContext.WorldRoot = drawContext.WorldRoot;
 		frameContext.Camera = drawContext.Camera;
+		frameContext.Lighting = drawContext.Lighting;
 		frameContext.Layers = drawContext.Layers;
 
 		frameContext.DepthTexture = DepthTexture;
 		frameContext.ShadowMapTexture = ShadowMapTexture;
 		frameContext.ShadowSampler = ShadowSampler;
-		frameContext.LightDirection = glm::normalize(glm::vec3(0.75f, 1.0f, 0.5f));
+		frameContext.LightDirection = drawContext.Lighting->GetSunDirection();
 
 		auto swapchainResult = SDL_AcquireGPUSwapchainTexture(
 			frameContext.Commands, Window, &frameContext.SwapchainTexture, &frameContext.Width, &frameContext.Height
@@ -159,7 +163,9 @@ namespace gargantuan {
 		};
 
 		for (auto &pass : RenderPasses) {
-			SDL_EndGPURenderPass(pass->Draw(Gpu, frameContext));
+			if (auto drawn = pass->Draw(Gpu, frameContext)) {
+				SDL_EndGPURenderPass(drawn);
+			}
 		}
 
 		SDL_SubmitGPUCommandBuffer(frameContext.Commands);

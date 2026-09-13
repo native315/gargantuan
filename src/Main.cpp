@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
 	program.add_group("Targets");
 	program.add_argument("--project").help("path of a project directory to be loaded").default_value("-");
 	program.add_argument("--script").help("path of a Luau script to be loaded").default_value("-");
-	program.add_argument("--instance").help("path ofg an instance file to be loaded").default_value("-");
+	program.add_argument("--instance").help("path of an instance file to be loaded").default_value("-");
 	program.add_group("Engine");
 	program.add_argument("--headless").flag().help("whether to disable the renderer");
 	program.add_argument("--enable_roblox_compat").flag().help("use roblox api compatibility (overrides projects)");

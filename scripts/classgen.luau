@@ -145,6 +145,10 @@ const function assembleMethods(state: GenerationState)
 				:push(string.format("%q", method.luauSignature or "(...unknown) -> (...unknown)"))
 				:push("}")
 		else
+			if method.returns then
+				pushTypeDependencies(state, method.returns)
+			end
+
 			state.publicBody:push(method.returns and method.returns.cType or "void"):push(" "):push(key):push("(")
 			if method.params then
 				for index, param in method.params do
@@ -282,8 +286,7 @@ end
 
 const function assembleFile(target: Target, declarationContents: fs.FileEntry)
 	const classContents = fs.readfile(declarationContents.path)
-	const classResult =
-		luau.eval(classContents, { stdlib = "Seal", name = path.absolutize(declarationContents.path) }) -- the path.absolutize is more windows bs
+	const classResult = luau.eval(classContents, { stdlib = "Seal", name = path.absolutize(declarationContents.path) }) -- the path.absolutize is more windows bs
 	if typeof(classResult) == "error" then
 		print(tostring(classResult))
 		return

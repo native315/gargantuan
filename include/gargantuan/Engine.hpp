@@ -4,6 +4,7 @@
 #include "gargantuan/classes/WorldRoot.hpp"
 #include "gargantuan/render/Renderer.hpp"
 #include "gargantuan/scripting/ScriptEngine.hpp"
+#include "gargantuan/services/Lighting.hpp"
 #include "gargantuan/services/ProcessService.hpp"
 #include "gargantuan/services/RunService.hpp"
 #include "gargantuan/services/UserInputService.hpp"
@@ -30,6 +31,7 @@ namespace gargantuan {
 		std::shared_ptr<RunService> RunService;
 		std::shared_ptr<ProcessService> ProcessService;
 		std::shared_ptr<UserInputService> UserInputService;
+		std::shared_ptr<Lighting> Lighting;
 
 		std::unordered_set<std::shared_ptr<LayerCollector>> Layers;
 

@@ -1,6 +1,7 @@
 #include "gargantuan/classes/Camera.hpp"
 
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_scancode.h>
 #include <glm/glm.hpp>
 
 namespace gargantuan {
@@ -33,7 +34,7 @@ namespace gargantuan {
 	}
 
 	glm::mat4 Camera::GetProjectionMatrix() {
-		return glm::perspective(glm::radians(FieldOfView), GetAspectRatio(), 0.1f, 100000.0f);
+		return glm::perspective(glm::radians(FieldOfView), GetAspectRatio(), 0.1f, 10000.0f);
 	}
 
 	glm::mat4 Camera::GetViewMatrix() {
@@ -57,8 +58,9 @@ namespace gargantuan {
 		} else if (event.type == SDL_EVENT_MOUSE_BUTTON_UP && event.button.button == SDL_BUTTON_RIGHT) {
 			auto window = SDL_GetWindowFromEvent(&event);
 			SDL_SetWindowRelativeMouseMode(window, false);
-		} else if (event.type == SDL_EVENT_MOUSE_MOTION &&
-				   SDL_GetWindowRelativeMouseMode(SDL_GetWindowFromEvent(&event))) {
+		} else if (
+			event.type == SDL_EVENT_MOUSE_MOTION && SDL_GetWindowRelativeMouseMode(SDL_GetWindowFromEvent(&event))
+		) {
 			AccumulatedDeltaX += event.motion.xrel;
 			AccumulatedDeltaY += event.motion.yrel;
 		}
@@ -102,6 +104,14 @@ namespace gargantuan {
 
 		if (keys[SDL_SCANCODE_D]) {
 			CFrame.Position += rightVector * FreecamSpeed * deltaTime;
+		}
+
+		if (keys[SDL_SCANCODE_E]) {
+			CFrame.Position += upVector * FreecamSpeed * deltaTime;
+		}
+
+		if (keys[SDL_SCANCODE_Q]) {
+			CFrame.Position -= upVector * FreecamSpeed * deltaTime;
 		}
 
 		if (keys[SDL_SCANCODE_SPACE]) {

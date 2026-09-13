@@ -34,6 +34,7 @@ namespace gargantuan {
 
 	std::unique_ptr<RenderPass> CreateOpaquePass(SDL_GPUDevice *gpu, SDL_GPUTextureFormat swapchainFormat);
 	std::unique_ptr<RenderPass> CreateShadowPass(SDL_GPUDevice *gpu, SDL_GPUTextureFormat swapchainFormat);
+	std::unique_ptr<RenderPass> CreateSkyboxPass(SDL_GPUDevice *gpu, SDL_GPUTextureFormat swapchainFormat);
 	std::unique_ptr<RenderPass> CreateGuiPass(SDL_GPUDevice *gpu, SDL_GPUTextureFormat swapchainFormat);
 
 	typedef std::function<std::unique_ptr<RenderPass>(SDL_GPUDevice *gpu, SDL_GPUTextureFormat swapchainFormat)>

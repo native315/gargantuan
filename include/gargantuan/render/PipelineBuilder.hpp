@@ -14,7 +14,7 @@ namespace gargantuan {
 		bool ColorEnabled = false;
 		bool BlendingEnabled = false;
 
-		SDL_GPUTextureFormat DepthFormat = SDL_GPU_TEXTUREFORMAT_D16_UNORM;
+		SDL_GPUTextureFormat DepthFormat = SDL_GPU_TEXTUREFORMAT_D32_FLOAT;
 		bool DepthEnabled = false;
 
 		PipelineBuilder &SetVertexShader(SDL_GPUShader *shader);

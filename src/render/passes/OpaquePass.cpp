@@ -1,3 +1,4 @@
+#include <SDL3/SDL_gpu.h>
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 #include "gargantuan/render/PipelineBuilder.hpp"
@@ -65,7 +66,7 @@ namespace gargantuan {
 						   .SetColorFormat(swapchainFormat)
 						   .SetBlendingEnabled(true)
 						   .SetDepthEnabled(true)
-						   .SetDepthFormat(SDL_GPU_TEXTUREFORMAT_D16_UNORM)
+						   .SetDepthFormat(SDL_GPU_TEXTUREFORMAT_D32_FLOAT)
 						   .Build(gpu);
 		};
 
@@ -81,7 +82,7 @@ namespace gargantuan {
 				.texture = context.DepthTexture,
 				.clear_depth = 1.0f,
 				.load_op = SDL_GPU_LOADOP_CLEAR,
-				.store_op = SDL_GPU_STOREOP_DONT_CARE,
+				.store_op = SDL_GPU_STOREOP_STORE,
 				.stencil_load_op = SDL_GPU_LOADOP_DONT_CARE,
 				.stencil_store_op = SDL_GPU_STOREOP_DONT_CARE,
 			};
@@ -110,9 +111,12 @@ namespace gargantuan {
 					continue;
 				}
 
+				auto ambientcolor3 = context.Lighting->GetAmbient();
+				glm::vec3 ambientvec3 = {ambientcolor3.R, ambientcolor3.G, ambientcolor3.B};
+
 				PartUniforms uniforms{
 					.ModelMatrix = part->GetModelMatrix(),
-					.Color = glm::vec4((glm::vec3)part->GetColor(), 1.0f - part->GetTransparency()),
+					.Color = glm::vec4((glm::vec3)part->GetColor() + ambientvec3, 1.0f - part->GetTransparency()),
 				};
 				SDL_PushGPUVertexUniformData(context.Commands, 1, &uniforms, sizeof(PartUniforms));
 

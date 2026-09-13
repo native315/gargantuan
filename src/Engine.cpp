@@ -10,6 +10,7 @@
 #include "gargantuan/render/Renderer.hpp"
 #include "gargantuan/scripting/ScriptEngine.hpp"
 #include "gargantuan/services/CoreGui.hpp"
+#include "gargantuan/services/Lighting.hpp"
 #include "gargantuan/services/UserInputService.hpp"
 #include "gargantuan/services/Workspace.hpp"
 
@@ -27,7 +28,7 @@ namespace gargantuan {
 		  Workspace(GetService<gargantuan::Workspace>()),
 		  WorldRoot(std::static_pointer_cast<gargantuan::WorldRoot>(Workspace)),
 		  RunService(GetService<gargantuan::RunService>()), ProcessService(GetService<gargantuan::ProcessService>()),
-		  UserInputService(GetService<gargantuan::UserInputService>()) {
+		  UserInputService(GetService<gargantuan::UserInputService>()), Lighting(GetService<gargantuan::Lighting>()) {
 
 		DataModel->BindDescendants([this](std::shared_ptr<Instance> inst) {
 			if (auto script = std::dynamic_pointer_cast<gargantuan::Script>(inst)) {
@@ -155,6 +156,7 @@ namespace gargantuan {
 				Renderer->Draw({
 					.WorldRoot = WorldRoot,
 					.Camera = Workspace->GetCurrentCamera(),
+					.Lighting = Lighting,
 					.Layers = Layers,
 				});
 			}

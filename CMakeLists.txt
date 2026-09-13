@@ -82,7 +82,7 @@ set(SDL_DISABLE_PCH ON CACHE BOOL "" FORCE)
 set(SDL_RENDER ON CACHE BOOL "" FORCE)
 set(SDL_SHARED ON CACHE BOOL "" FORCE)
 set(SDL_TEST OFF CACHE BOOL "" FORCE)
-set(SDLIMAGE_AVIF OFF CACHE BOOL "" FORCE) #was giving me compile issues (don't wnna install nasm for no reason)
+set(SDLIMAGE_AVIF OFF CACHE BOOL "" FORCE) #was giving me compile issues
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 
 add_subdirectory(vendor/argparse SYSTEM)
@@ -210,3 +210,10 @@ if(WIN32)
 		COMMENT "Copying shaders next to gargantuan.exe"
 	)
 endif()
+
+add_custom_command(TARGET gargantuan POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory_if_newer
+		"${CMAKE_CURRENT_SOURCE_DIR}/content"
+		"$<TARGET_FILE_DIR:gargantuan>/content"
+	COMMENT "Copying content next to the gargantuan executable"
+)
